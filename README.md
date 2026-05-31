@@ -35,12 +35,18 @@ npm run build
 
 ## Current data model
 
-The UI currently uses a dated research snapshot stored in [`src/data.js`](./src/data.js).
+The UI now reads generated data from [`src/data.generated.js`](./src/data.generated.js), which is built from JSON source files in [`data/`](./data/).
 
 - Vendor pricing, context windows, and launch status are sourced from current docs.
 - Capability and agent-fit scores are editorial composites informed by benchmark trackers and vendor docs.
 - Local-model 4090 fit is based on practical quantized footprints rather than raw parameter counts alone.
 - The refresh workflow is documented in [`docs/refresh-playbook.md`](./docs/refresh-playbook.md).
+
+Regenerate the UI snapshot with:
+
+```bash
+npm run generate:data
+```
 
 ## Execution plan for the repo
 

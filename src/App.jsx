@@ -1,5 +1,11 @@
 import { useDeferredValue, useMemo, useState } from "react";
-import { hostedModels, localModels, roadmap, snapshot, topology } from "./data";
+import {
+  hostedModels,
+  localModels,
+  roadmap,
+  snapshot,
+  topology,
+} from "./data.generated.js";
 
 const sortOptions = {
   arenaScore: "Capability score",

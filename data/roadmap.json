@@ -1,0 +1,6 @@
+[
+  "Move the snapshot into JSON plus a small refresh script so updates stop depending on one human having coffee and spite.",
+  "Add separate ranking presets for planning, coding agents, browser agents, and verification loops.",
+  "Track preview-to-GA migrations so the board stops promoting ghosts after a provider rolls a new alias.",
+  "Store weekly snapshots and diff them over time so rankings show drift instead of pretending every update happens in a vacuum."
+]

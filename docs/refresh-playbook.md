@@ -44,10 +44,11 @@ For each candidate:
 
 1. Re-check official pricing pages
 2. Re-check benchmark references
-3. Update [`src/data.js`](../src/data.js)
-4. Run `npm run build`
-5. Review the generated site for layout regressions
-6. Commit and push if the snapshot changed
+3. Update the JSON source files in [`data/`](../data/)
+4. Run `npm run generate:data`
+5. Run `npm run build`
+6. Review the generated site for layout regressions
+7. Commit and push if the snapshot changed materially
 
 ## Current benchmark references
 

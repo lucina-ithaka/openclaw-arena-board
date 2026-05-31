@@ -1,0 +1,59 @@
+{
+  "asOf": "May 31, 2026",
+  "description": "May 31, 2026 research refresh. Pricing, context limits, model IDs, and launch status are sourced from current vendor docs. Capability and agent-fit scores are editorial composites informed by those vendor docs plus live benchmark trackers.",
+  "methodology": [
+    "Hosted-model pricing and context windows come from official vendor docs fetched on May 31, 2026.",
+    "Capability and agent scores are editorial composites, not raw benchmark numbers. They blend official vendor positioning with live benchmark trackers such as AGI Ranker and LM Arena-style reference boards.",
+    "Local 4090 fit assumes practical quantized deployment, usually Q4-class GGUF or equivalent, not full-precision fantasy land."
+  ],
+  "sources": [
+    {
+      "label": "OpenAI pricing",
+      "url": "https://openai.com/api/pricing/"
+    },
+    {
+      "label": "OpenAI model guide",
+      "url": "https://developers.openai.com/api/docs/models"
+    },
+    {
+      "label": "Anthropic pricing",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+    },
+    {
+      "label": "Anthropic models overview",
+      "url": "https://platform.claude.com/docs/en/about-claude/models/overview"
+    },
+    {
+      "label": "Google Agent Platform pricing",
+      "url": "https://cloud.google.com/gemini-enterprise-agent-platform/generative-ai/pricing"
+    },
+    {
+      "label": "Gemini 2.5 Pro model page",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/2-5-pro"
+    },
+    {
+      "label": "Gemini 2.5 Flash model page",
+      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/2-5-flash"
+    },
+    {
+      "label": "xAI model docs",
+      "url": "https://docs.x.ai/developers/models"
+    },
+    {
+      "label": "Mistral pricing",
+      "url": "https://mistral.ai/pricing/"
+    },
+    {
+      "label": "AGI Ranker",
+      "url": "https://www.agiranker.com/"
+    },
+    {
+      "label": "LM Arena reference board",
+      "url": "https://huggingface.co/spaces/lmarena-ai/arena-leaderboard"
+    },
+    {
+      "label": "Ollama library",
+      "url": "https://ollama.com/library"
+    }
+  ]
+}

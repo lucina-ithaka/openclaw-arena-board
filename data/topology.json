@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Frontier planner",
+    "blurb": "Use a flagship model like GPT-5.5, NextOpus, or Gemini 3.1 Pro Preview for decomposition, recovery planning, and hard reasoning.",
+    "color": "rose"
+  },
+  {
+    "title": "Cheap executor",
+    "blurb": "Route repetitive substeps to a mini or flash-class model so your agents do not burn flagship tokens making peanut butter sandwiches.",
+    "color": "gold"
+  },
+  {
+    "title": "Verifier loop",
+    "blurb": "Use a fast, cheaper reviewer for retry decisions, output grading, and post-tool sanity checks.",
+    "color": "sky"
+  },
+  {
+    "title": "Local privacy rail",
+    "blurb": "Keep local coding, private corpora, and offline automation on a 4090-hosted model when data sensitivity beats raw benchmark glory.",
+    "color": "mint"
+  }
+]
