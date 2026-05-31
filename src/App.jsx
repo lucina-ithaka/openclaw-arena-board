@@ -2,7 +2,7 @@ import { useDeferredValue, useMemo, useState } from "react";
 import { hostedModels, localModels, roadmap, snapshot, topology } from "./data";
 
 const sortOptions = {
-  arenaScore: "Leaderboard score",
+  arenaScore: "Capability score",
   agentScore: "Agent fit",
   inputCost: "Lowest input cost",
   outputCost: "Lowest output cost",
@@ -106,15 +106,15 @@ function App() {
     {
       label: "Hosted models tracked",
       value: hostedModels.length,
-      detail: "Frontier and efficiency picks for tool-using agents",
+      detail: "Refreshed to a May 31, 2026 snapshot",
     },
     {
       label: "4090-ready local models",
       value: localModels.length,
-      detail: "Quantized picks that stay inside a 24 GB card",
+      detail: "Serious local picks, not nostalgia bait",
     },
     {
-      label: "Cheapest verifier",
+      label: "Cheapest hosted input",
       value: formatMoney(
         Math.min(...hostedModels.map((model) => model.inputCost)),
       ),
@@ -135,9 +135,9 @@ function App() {
           </h1>
           <p className="lede">
             Designed for OpenClaw-style systems where model quality is only half
-            the story. This board weighs leaderboard feel, tool fluency, token
-            pricing, context headroom, and whether a private local fallback can
-            live on a single RTX 4090.
+            the story. This refreshed board weighs current frontier capability,
+            agent fluency, API economics, release status, and whether a private
+            local fallback can still live on a single RTX 4090.
           </p>
 
           <div className="hero-actions">
@@ -152,6 +152,12 @@ function App() {
           <div className="snapshot-note">
             <strong>Snapshot:</strong> {snapshot.asOf}
             <span>{snapshot.description}</span>
+          </div>
+
+          <div className="methodology-strip">
+            {snapshot.methodology.map((item) => (
+              <p key={item}>{item}</p>
+            ))}
           </div>
         </div>
 
@@ -175,7 +181,8 @@ function App() {
             </div>
             <p className="section-copy">
               High and left is the sweet spot: stronger agent behavior at lower
-              token burn.
+              token burn. Preview models are included, but their status is
+              surfaced explicitly instead of being passed off as boringly stable.
             </p>
           </div>
 
@@ -222,6 +229,7 @@ function App() {
 
           <div className="focus-meta">
             <span>{selectedModel.provider}</span>
+            <span>{selectedModel.status}</span>
             <span>{selectedModel.toolUse}</span>
             <span>{formatContext(selectedModel.contextWindow)} context</span>
           </div>
@@ -261,6 +269,16 @@ function App() {
               <dt>Tier</dt>
               <dd>{selectedModel.tier}</dd>
             </div>
+            <div>
+              <dt>Release status</dt>
+              <dd>
+                {selectedModel.status} · {selectedModel.releaseDate}
+              </dd>
+            </div>
+            <div>
+              <dt>Model ID</dt>
+              <dd>{selectedModel.modelId}</dd>
+            </div>
           </dl>
         </article>
       </section>
@@ -272,8 +290,8 @@ function App() {
             <h2>Hosted models for agentic frameworks</h2>
           </div>
           <p className="section-copy">
-            Filtered for planning, tool use, and production API economics rather
-            than pure chat vibes.
+            Filtered for planning, tool use, production economics, and actual
+            2026 release status rather than pure chat vibes.
           </p>
         </div>
 
@@ -322,7 +340,7 @@ function App() {
             <span>Rank</span>
             <span>Model</span>
             <span>Agent fit</span>
-            <span>Arena feel</span>
+            <span>Capability</span>
             <span>Input</span>
             <span>Output</span>
             <span>Latency</span>
@@ -341,7 +359,7 @@ function App() {
               <span className="model-cell">
                 <strong>{model.name}</strong>
                 <small>
-                  {model.provider} · {model.toolUse}
+                  {model.provider} · {model.status} · {model.toolUse}
                 </small>
               </span>
               <span>{model.agentScore}</span>
@@ -384,8 +402,8 @@ function App() {
             <h2>Models that fit on a single RTX 4090</h2>
           </div>
           <p className="section-copy">
-            Quantized picks for a 24 GB card, sorted for practical autonomy
-            rather than theoretical maximums.
+            Quantized or offload-aware picks for a 24 GB card, sorted for
+            practical autonomy rather than theoretical maximums.
           </p>
         </div>
 
@@ -423,7 +441,11 @@ function App() {
                   <dd>{model.toolUse}</dd>
                 </div>
                 <div>
-                  <dt>Arena-style score</dt>
+                  <dt>Fit mode</dt>
+                  <dd>{model.fitMode}</dd>
+                </div>
+                <div>
+                  <dt>Capability signal</dt>
                   <dd>{model.arenaScore}</dd>
                 </div>
               </dl>
@@ -441,8 +463,8 @@ function App() {
             <h2>What this repo needs next</h2>
           </div>
           <p className="section-copy">
-            The UI is live now; the next phase is turning it into a durable data
-            product.
+            Pass 1 is the research refresh. Pass 2 is making the refresh
+            repeatable so this board stops fossilizing between good intentions.
           </p>
         </div>
 
