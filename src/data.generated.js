@@ -6,8 +6,9 @@ export const snapshot = {
   "description": "May 31, 2026 research refresh. Pricing, context limits, model IDs, and launch status are sourced from current vendor docs. Capability and agent-fit scores are editorial composites informed by those vendor docs plus live benchmark trackers.",
   "methodology": [
     "Hosted-model pricing and context windows come from official vendor docs fetched on May 31, 2026.",
-    "Capability and agent scores are editorial composites, not raw benchmark numbers. They blend official vendor positioning with live benchmark trackers such as AGI Ranker and LM Arena-style reference boards.",
-    "Local 4090 fit assumes practical quantized deployment, usually Q4-class GGUF or equivalent, not full-precision fantasy land."
+    "Capability and agent-fit scores are board-relative editorial composites, not raw benchmark numbers. A 100 means the strongest current model in this snapshot for the category being scored, and a 99 means roughly one step below that reference point in practical use.",
+    "Agent fit emphasizes long-horizon planning, tool calling, code execution loops, recovery after bad tool outputs, and how sane the model is to operate inside a real agent stack rather than a clean benchmark prompt.",
+    "Local 4090 fit assumes practical quantized deployment, usually Q4-class GGUF or equivalent. Models lose points for fragile offload gymnastics even if they technically fit on a 24 GB card."
   ],
   "sources": [
     {
@@ -41,6 +42,14 @@ export const snapshot = {
     {
       "label": "xAI model docs",
       "url": "https://docs.x.ai/developers/models"
+    },
+    {
+      "label": "DeepSeek pricing",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing"
+    },
+    {
+      "label": "DeepSeek model docs",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing"
     },
     {
       "label": "Mistral pricing",
@@ -194,6 +203,32 @@ export const hostedModels = [
     ],
     "modelId": "grok-4.3",
     "notes": "Aggressively priced for a current frontier-class model. Particularly attractive if you want high-end capability without GPT-5.5 or Opus-level spend."
+  },
+  {
+    "id": "deepseek-v4-pro",
+    "name": "DeepSeek V4 Pro",
+    "provider": "DeepSeek",
+    "tier": "Disruptive value",
+    "status": "GA",
+    "releaseDate": "April 24, 2026",
+    "arenaScore": 93,
+    "agentScore": 96,
+    "latency": 2.2,
+    "contextWindow": 1000,
+    "inputCost": 0.44,
+    "outputCost": 0.87,
+    "cacheCost": 0.04,
+    "toolUse": "Excellent",
+    "modalities": [
+      "text",
+      "tool calling",
+      "reasoning"
+    ],
+    "regions": [
+      "global"
+    ],
+    "modelId": "deepseek-v4-pro",
+    "notes": "DeepSeek's current flagship is the obvious price-to-performance troublemaker: strong enough for serious agent work while charging well under most frontier competitors on output tokens."
   },
   {
     "id": "gemini-35-flash",

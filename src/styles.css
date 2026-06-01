@@ -269,6 +269,12 @@ select {
   stroke-width: 1.5;
 }
 
+.grid-line {
+  stroke: rgba(173, 203, 255, 0.1);
+  stroke-width: 1;
+  stroke-dasharray: 4 8;
+}
+
 .axis-label {
   fill: var(--muted);
   font-size: 12px;
@@ -292,6 +298,10 @@ select {
   stroke: rgba(7, 17, 31, 0.9);
   stroke-width: 3px;
   transition: transform 180ms ease;
+}
+
+.dot.local {
+  fill: var(--mint);
 }
 
 .dot-group.active .dot,
@@ -472,6 +482,16 @@ select {
   padding: 18px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.local-card {
+  cursor: pointer;
+}
+
+.local-card.selected,
+.local-card:hover {
+  border-color: rgba(255, 189, 89, 0.4);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .topology-card h3,

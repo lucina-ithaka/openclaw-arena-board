@@ -100,6 +100,26 @@
     "notes": "Aggressively priced for a current frontier-class model. Particularly attractive if you want high-end capability without GPT-5.5 or Opus-level spend."
   },
   {
+    "id": "deepseek-v4-pro",
+    "name": "DeepSeek V4 Pro",
+    "provider": "DeepSeek",
+    "tier": "Disruptive value",
+    "status": "GA",
+    "releaseDate": "April 24, 2026",
+    "arenaScore": 93,
+    "agentScore": 96,
+    "latency": 2.2,
+    "contextWindow": 1000,
+    "inputCost": 0.44,
+    "outputCost": 0.87,
+    "cacheCost": 0.04,
+    "toolUse": "Excellent",
+    "modalities": ["text", "tool calling", "reasoning"],
+    "regions": ["global"],
+    "modelId": "deepseek-v4-pro",
+    "notes": "DeepSeek's current flagship is the obvious price-to-performance troublemaker: strong enough for serious agent work while charging well under most frontier competitors on output tokens."
+  },
+  {
     "id": "gemini-35-flash",
     "name": "Gemini 3.5 Flash",
     "provider": "Google",

@@ -36,15 +36,32 @@ function sortModels(models, key) {
   return sorted;
 }
 
-function buildScatterPoints(models) {
-  const maxCost = Math.max(...models.map((model) => model.outputCost));
-  const minCost = Math.min(...models.map((model) => model.inputCost));
-  const maxScore = Math.max(...models.map((model) => model.agentScore));
-  const minScore = Math.min(...models.map((model) => model.agentScore));
+function buildScatterPoints(hosted, local) {
+  const hostedPoints = hosted.map((model) => ({
+    ...model,
+    pointType: "hosted",
+    pointLabel: model.provider,
+    chartCost: model.outputCost,
+    fitScore: model.agentScore,
+  }));
 
-  return models.map((model) => {
-    const xRatio = (model.inputCost - minCost) / Math.max(maxCost - minCost, 1);
-    const yRatio = (model.agentScore - minScore) / Math.max(maxScore - minScore, 1);
+  const localPoints = local.map((model) => ({
+    ...model,
+    pointType: "local",
+    pointLabel: "Local",
+    provider: model.family,
+    chartCost: 0,
+    fitScore: model.fitScore,
+  }));
+
+  const points = [...hostedPoints, ...localPoints];
+  const maxCost = Math.max(...points.map((model) => model.chartCost));
+  const maxScore = Math.max(...points.map((model) => model.fitScore));
+  const minScore = Math.min(...points.map((model) => model.fitScore));
+
+  return points.map((model) => {
+    const xRatio = model.chartCost / Math.max(maxCost, 1);
+    const yRatio = (model.fitScore - minScore) / Math.max(maxScore - minScore, 1);
 
     return {
       ...model,
@@ -95,13 +112,13 @@ function App() {
     [filteredModels, sortKey],
   );
 
-  const selectedModel =
-    hostedModels.find((model) => model.id === selectedId) ?? hostedModels[0];
-
   const scatterPoints = useMemo(
-    () => buildScatterPoints(sortedModels.length ? sortedModels : hostedModels),
+    () => buildScatterPoints(sortedModels.length ? sortedModels : hostedModels, localModels),
     [sortedModels],
   );
+
+  const selectedModel =
+    scatterPoints.find((model) => model.id === selectedId) ?? scatterPoints[0];
 
   const providerChoices = [
     "All providers",
@@ -126,6 +143,14 @@ function App() {
       ),
       detail: "Per 1M input tokens in the current snapshot",
     },
+  ];
+
+  const xGridLines = [52, 156, 260, 364, 468];
+  const yGridLines = [60, 109, 158, 207, 256];
+  const scoreMeaning = [
+    "Agent fit is a board-relative operational score for planning quality, tool calling, coding loops, recovery after bad tool results, and how sane the model is to run inside a real agent stack.",
+    "A 100 means the strongest current model in this snapshot for agentic use. A 99 means effectively one step below that reference point in practical use, not a universal scientific score.",
+    "Local models use the same practical scale, but are judged within the constraints of a single 24 GB RTX 4090 setup rather than idealized multi-GPU deployments.",
   ];
 
   return (
@@ -186,9 +211,9 @@ function App() {
               <h2>Agent-fit scatter plot</h2>
             </div>
             <p className="section-copy">
-              High and left is the sweet spot: stronger agent behavior at lower
-              token burn. Preview models are included, but their status is
-              surfaced explicitly instead of being passed off as boringly stable.
+              High and left is the sweet spot: stronger agent behavior with
+              either local access or lower output-token cost. Hosted models move
+              right as output cost rises; local models pin to the zero-cost edge.
             </p>
           </div>
 
@@ -196,12 +221,35 @@ function App() {
             className="scatter-chart"
             viewBox="0 0 520 320"
             role="img"
-            aria-label="Scatter plot of agent fit against input token price"
+            aria-label="Scatter plot of agent fit against local access or output token price"
           >
+            {yGridLines.map((y) => (
+              <line
+                className="grid-line"
+                key={`y-${y}`}
+                x1="52"
+                x2="480"
+                y1={y}
+                y2={y}
+              />
+            ))}
+            {xGridLines.map((x) => (
+              <line
+                className="grid-line"
+                key={`x-${x}`}
+                x1={x}
+                x2={x}
+                y1="40"
+                y2="256"
+              />
+            ))}
             <line x1="52" y1="256" x2="480" y2="256" className="axis" />
             <line x1="52" y1="40" x2="52" y2="256" className="axis" />
-            <text x="480" y="285" className="axis-label">
-              higher token cost
+            <text x="52" y="285" className="axis-label" textAnchor="start">
+              local access
+            </text>
+            <text x="480" y="285" className="axis-label" textAnchor="end">
+              higher output cost / 1M tokens
             </text>
             <text x="20" y="40" className="axis-label vertical">
               stronger agent fit
@@ -215,9 +263,14 @@ function App() {
                 key={point.id}
                 onClick={() => setSelectedId(point.id)}
               >
-                <circle cx={point.x} cy={point.y} r="10" className="dot" />
+                <circle
+                  cx={point.x}
+                  cy={point.y}
+                  r={point.pointType === "local" ? "11" : "10"}
+                  className={`dot ${point.pointType}`}
+                />
                 <text x={point.x} y={point.y - 18} textAnchor="middle">
-                  {point.provider}
+                  {point.pointLabel}
                 </text>
               </g>
             ))}
@@ -227,7 +280,9 @@ function App() {
         <article className="panel focus-panel">
           <div className="section-head">
             <div>
-              <p className="eyebrow">API usage</p>
+              <p className="eyebrow">
+                {selectedModel.pointType === "local" ? "Local profile" : "API usage"}
+              </p>
               <h2>{selectedModel.name}</h2>
             </div>
             <p className="section-copy">{selectedModel.notes}</p>
@@ -235,21 +290,39 @@ function App() {
 
           <div className="focus-meta">
             <span>{selectedModel.provider}</span>
-            <span>{selectedModel.status}</span>
+            <span>
+              {selectedModel.pointType === "local"
+                ? selectedModel.fitMode
+                : selectedModel.status}
+            </span>
             <span>{selectedModel.toolUse}</span>
             <span>{formatContext(selectedModel.contextWindow)} context</span>
           </div>
 
           <div className="usage-bars">
-            {[
-              ["Input", selectedModel.inputCost, 15],
-              ["Output", selectedModel.outputCost, 15],
-              ["Cached input", selectedModel.cacheCost, 1],
-            ].map(([label, value, scale]) => (
+            {(
+              selectedModel.pointType === "local"
+                ? [
+                    ["Output API cost", 0, 15],
+                    ["VRAM footprint", selectedModel.vramGb, 24],
+                    ["Agent fit", selectedModel.fitScore, 100],
+                  ]
+                : [
+                    ["Input", selectedModel.inputCost, 15],
+                    ["Output", selectedModel.outputCost, 30],
+                    ["Cached input", selectedModel.cacheCost, 1],
+                  ]
+            ).map(([label, value, scale]) => (
               <div className="usage-row" key={label}>
                 <div className="usage-copy">
                   <p>{label}</p>
-                  <strong>{formatMoney(value)} / 1M tokens</strong>
+                  <strong>
+                    {selectedModel.pointType === "local" && label === "VRAM footprint"
+                      ? `${value.toFixed(1)} GB / 24 GB`
+                      : selectedModel.pointType === "local" && label === "Agent fit"
+                        ? `${value}/100`
+                        : `${formatMoney(value)} / 1M tokens`}
+                  </strong>
                 </div>
                 <div className="usage-track">
                   <span style={{ width: `${Math.min((value / scale) * 100, 100)}%` }} />
@@ -260,33 +333,78 @@ function App() {
 
           <dl className="detail-grid">
             <div>
-              <dt>Latency</dt>
-              <dd>{selectedModel.latency.toFixed(1)}s median loop</dd>
-            </div>
-            <div>
-              <dt>Modalities</dt>
-              <dd>{selectedModel.modalities.join(" • ")}</dd>
-            </div>
-            <div>
-              <dt>Regions</dt>
-              <dd>{selectedModel.regions.join(" • ").toUpperCase()}</dd>
-            </div>
-            <div>
-              <dt>Tier</dt>
-              <dd>{selectedModel.tier}</dd>
-            </div>
-            <div>
-              <dt>Release status</dt>
+              <dt>{selectedModel.pointType === "local" ? "Fit score" : "Latency"}</dt>
               <dd>
-                {selectedModel.status} · {selectedModel.releaseDate}
+                {selectedModel.pointType === "local"
+                  ? `${selectedModel.fitScore}/100`
+                  : `${selectedModel.latency.toFixed(1)}s median loop`}
               </dd>
             </div>
             <div>
-              <dt>Model ID</dt>
-              <dd>{selectedModel.modelId}</dd>
+              <dt>{selectedModel.pointType === "local" ? "Quantization" : "Modalities"}</dt>
+              <dd>
+                {selectedModel.pointType === "local"
+                  ? selectedModel.quant
+                  : selectedModel.modalities.join(" • ")}
+              </dd>
+            </div>
+            <div>
+              <dt>{selectedModel.pointType === "local" ? "Footprint" : "Regions"}</dt>
+              <dd>
+                {selectedModel.pointType === "local"
+                  ? `${selectedModel.vramGb.toFixed(1)} GB VRAM`
+                  : selectedModel.regions.join(" • ").toUpperCase()}
+              </dd>
+            </div>
+            <div>
+              <dt>{selectedModel.pointType === "local" ? "Best for" : "Tier"}</dt>
+              <dd>
+                {selectedModel.pointType === "local"
+                  ? selectedModel.bestFor
+                  : selectedModel.tier}
+              </dd>
+            </div>
+            <div>
+              <dt>{selectedModel.pointType === "local" ? "Local access" : "Release status"}</dt>
+              <dd>
+                {selectedModel.pointType === "local"
+                  ? `${selectedModel.fitMode} · ${formatContext(selectedModel.contextWindow)} context`
+                  : `${selectedModel.status} · ${selectedModel.releaseDate}`}
+              </dd>
+            </div>
+            <div>
+              <dt>{selectedModel.pointType === "local" ? "Capability signal" : "Model ID"}</dt>
+              <dd>
+                {selectedModel.pointType === "local"
+                  ? selectedModel.arenaScore
+                  : selectedModel.modelId}
+              </dd>
             </div>
           </dl>
         </article>
+      </section>
+
+      <section className="panel topology-panel">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Scoring</p>
+            <h2>What agent fit means on this board</h2>
+          </div>
+          <p className="section-copy">
+            These are board-relative operational scores, not official vendor
+            scores and not a raw benchmark dump pretending to be more objective
+            than it really is.
+          </p>
+        </div>
+
+        <div className="roadmap-list">
+          {scoreMeaning.map((item) => (
+            <article className="roadmap-card" key={item}>
+              <span />
+              <p>{item}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="panel leaderboard-panel" id="leaderboard">
@@ -415,7 +533,11 @@ function App() {
 
         <div className="local-grid">
           {localModels.map((model) => (
-            <article className="local-card" key={model.id}>
+            <article
+              className={`local-card ${model.id === selectedModel.id ? "selected" : ""}`}
+              key={model.id}
+              onClick={() => setSelectedId(model.id)}
+            >
               <div className="local-head">
                 <div>
                   <h3>{model.name}</h3>
