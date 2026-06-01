@@ -2,10 +2,10 @@
 // Edit JSON in /data and rerun `npm run generate:data`.
 
 export const snapshot = {
-  "asOf": "May 31, 2026",
-  "description": "May 31, 2026 research refresh. Pricing, context limits, model IDs, and launch status are sourced from current vendor docs. Capability and agent-fit scores are editorial composites informed by those vendor docs plus live benchmark trackers.",
+  "asOf": "June 1, 2026",
+  "description": "June 1, 2026 research refresh. Pricing, context limits, model IDs, and launch status are sourced from current vendor docs. Capability and agent-fit scores are editorial composites informed by those vendor docs plus live benchmark trackers.",
   "methodology": [
-    "Hosted-model pricing and context windows come from official vendor docs fetched on May 31, 2026.",
+    "Hosted-model pricing and context windows come from official vendor docs checked on June 1, 2026.",
     "Capability and agent-fit scores are board-relative editorial composites, not raw benchmark numbers. A 100 means the strongest current model in this snapshot for the category being scored, and a 99 means roughly one step below that reference point in practical use.",
     "Agent fit emphasizes long-horizon planning, tool calling, code execution loops, recovery after bad tool outputs, and how sane the model is to operate inside a real agent stack rather than a clean benchmark prompt.",
     "Local 4090 fit assumes practical quantized deployment, usually Q4-class GGUF or equivalent. Models lose points for fragile offload gymnastics even if they technically fit on a 24 GB card."
@@ -17,7 +17,7 @@ export const snapshot = {
     },
     {
       "label": "OpenAI model guide",
-      "url": "https://developers.openai.com/api/docs/models"
+      "url": "https://developers.openai.com/api/docs/models/compare"
     },
     {
       "label": "Anthropic pricing",
@@ -28,19 +28,15 @@ export const snapshot = {
       "url": "https://platform.claude.com/docs/en/about-claude/models/overview"
     },
     {
-      "label": "Google Agent Platform pricing",
-      "url": "https://cloud.google.com/gemini-enterprise-agent-platform/generative-ai/pricing"
+      "label": "Gemini API pricing",
+      "url": "https://ai.google.dev/gemini-api/docs/pricing"
     },
     {
-      "label": "Gemini 2.5 Pro model page",
-      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/2-5-pro"
+      "label": "Gemini models",
+      "url": "https://ai.google.dev/gemini-api/docs/models"
     },
     {
-      "label": "Gemini 2.5 Flash model page",
-      "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/2-5-flash"
-    },
-    {
-      "label": "xAI model docs",
+      "label": "xAI models and pricing",
       "url": "https://docs.x.ai/developers/models"
     },
     {
@@ -48,12 +44,16 @@ export const snapshot = {
       "url": "https://api-docs.deepseek.com/quick_start/pricing"
     },
     {
-      "label": "DeepSeek model docs",
-      "url": "https://api-docs.deepseek.com/quick_start/pricing"
+      "label": "DeepSeek change log",
+      "url": "https://api-docs.deepseek.com/updates/"
     },
     {
       "label": "Mistral pricing",
       "url": "https://mistral.ai/pricing/"
+    },
+    {
+      "label": "Mistral model docs",
+      "url": "https://docs.mistral.ai/models"
     },
     {
       "label": "AGI Ranker",
@@ -66,6 +66,10 @@ export const snapshot = {
     {
       "label": "Ollama library",
       "url": "https://ollama.com/library"
+    },
+    {
+      "label": "Mistral offline model guidance",
+      "url": "https://docs.mistral.ai/vibe/code/cli/offline-models"
     }
   ]
 };
@@ -79,9 +83,9 @@ export const hostedModels = [
     "status": "GA",
     "releaseDate": "April 23, 2026",
     "arenaScore": 99,
-    "agentScore": 97,
+    "agentScore": 98,
     "latency": 3.6,
-    "contextWindow": 270,
+    "contextWindow": 1050,
     "inputCost": 5,
     "outputCost": 30,
     "cacheCost": 0.5,
@@ -95,15 +99,15 @@ export const hostedModels = [
       "global"
     ],
     "modelId": "gpt-5.5",
-    "notes": "OpenAI's flagship as of May 31, 2026. Best fit when the workflow needs frontier reasoning, coding depth, and mature tool infrastructure."
+    "notes": "OpenAI's newest frontier model as documented on June 1, 2026. Best fit when the workflow needs top-end coding, long-context professional work, and mature built-in tools."
   },
   {
-    "id": "claude-nextopus",
-    "name": "Claude NextOpus",
+    "id": "claude-opus-48",
+    "name": "Claude Opus 4.8",
     "provider": "Anthropic",
     "tier": "Flagship",
-    "status": "Current",
-    "releaseDate": "Current as documented May 31, 2026",
+    "status": "GA",
+    "releaseDate": "Current as documented on June 1, 2026",
     "arenaScore": 98,
     "agentScore": 99,
     "latency": 3.9,
@@ -121,8 +125,8 @@ export const hostedModels = [
       "global",
       "us"
     ],
-    "modelId": "rolling Anthropic flagship",
-    "notes": "Anthropic's docs position NextOpus as the top-end pick for complex reasoning and long-horizon agentic coding. Great when autonomy matters more than neat benchmark aesthetics."
+    "modelId": "claude-opus-4-8",
+    "notes": "Anthropic now positions Opus 4.8 as its most capable generally available model for complex reasoning and long-horizon agentic coding."
   },
   {
     "id": "claude-sonnet-46",
@@ -130,7 +134,7 @@ export const hostedModels = [
     "provider": "Anthropic",
     "tier": "Best balance",
     "status": "GA",
-    "releaseDate": "Current as documented May 31, 2026",
+    "releaseDate": "Current as documented on June 1, 2026",
     "arenaScore": 95,
     "agentScore": 98,
     "latency": 2.6,
@@ -149,22 +153,22 @@ export const hostedModels = [
       "us"
     ],
     "modelId": "claude-sonnet-4-6",
-    "notes": "Probably the healthiest default for production agents right now: huge context, strong tool behavior, and much saner pricing than the top frontier tier."
+    "notes": "Still the practical Claude default for most production agents: 1M context, strong tools, and much saner pricing than Opus."
   },
   {
-    "id": "gemini-31-pro-preview",
-    "name": "Gemini 3.1 Pro Preview",
+    "id": "gemini-25-pro",
+    "name": "Gemini 2.5 Pro",
     "provider": "Google",
-    "tier": "Preview flagship",
-    "status": "Preview",
-    "releaseDate": "Live in pricing docs May 31, 2026",
-    "arenaScore": 97,
+    "tier": "Stable frontier",
+    "status": "GA",
+    "releaseDate": "Current stable model as documented on June 1, 2026",
+    "arenaScore": 96,
     "agentScore": 95,
-    "latency": 3.7,
-    "contextWindow": 1000,
-    "inputCost": 2,
-    "outputCost": 12,
-    "cacheCost": 0.2,
+    "latency": 3.5,
+    "contextWindow": 1048,
+    "inputCost": 1.25,
+    "outputCost": 10,
+    "cacheCost": 0.125,
     "toolUse": "Excellent",
     "modalities": [
       "text",
@@ -176,8 +180,8 @@ export const hostedModels = [
     "regions": [
       "global"
     ],
-    "modelId": "Gemini 3.1 Pro Preview",
-    "notes": "Google's latest top reasoning tier in pricing docs. Strong multimodal and long-context choice, but preview status means you should expect some operational wobble."
+    "modelId": "gemini-2.5-pro",
+    "notes": "Google's stable advanced thinking model with a 1,048,576-token window. Base pricing is the <=200k-token tier; very long prompts cost more."
   },
   {
     "id": "grok-43",
@@ -185,9 +189,9 @@ export const hostedModels = [
     "provider": "xAI",
     "tier": "Flagship",
     "status": "GA",
-    "releaseDate": "Current as documented May 31, 2026",
+    "releaseDate": "Current as documented on May 29, 2026",
     "arenaScore": 94,
-    "agentScore": 93,
+    "agentScore": 94,
     "latency": 2.9,
     "contextWindow": 1000,
     "inputCost": 1.25,
@@ -196,13 +200,14 @@ export const hostedModels = [
     "toolUse": "Strong",
     "modalities": [
       "text",
-      "vision"
+      "vision",
+      "tool calling"
     ],
     "regions": [
       "global"
     ],
     "modelId": "grok-4.3",
-    "notes": "Aggressively priced for a current frontier-class model. Particularly attractive if you want high-end capability without GPT-5.5 or Opus-level spend."
+    "notes": "xAI explicitly recommends Grok 4.3 for general use. It stays attractive for teams that want frontier-ish capability without frontier-tier spend."
   },
   {
     "id": "deepseek-v4-pro",
@@ -215,9 +220,9 @@ export const hostedModels = [
     "agentScore": 96,
     "latency": 2.2,
     "contextWindow": 1000,
-    "inputCost": 0.44,
+    "inputCost": 0.435,
     "outputCost": 0.87,
-    "cacheCost": 0.04,
+    "cacheCost": 0.0036,
     "toolUse": "Excellent",
     "modalities": [
       "text",
@@ -228,7 +233,7 @@ export const hostedModels = [
       "global"
     ],
     "modelId": "deepseek-v4-pro",
-    "notes": "DeepSeek's current flagship is the obvious price-to-performance troublemaker: strong enough for serious agent work while charging well under most frontier competitors on output tokens."
+    "notes": "DeepSeek's June 1, 2026 effective pricing is the post-promo quarter-price rate described in its official docs. The economics are still absurdly aggressive for serious agent work."
   },
   {
     "id": "gemini-35-flash",
@@ -236,11 +241,11 @@ export const hostedModels = [
     "provider": "Google",
     "tier": "High-throughput",
     "status": "GA",
-    "releaseDate": "Current in pricing docs May 31, 2026",
-    "arenaScore": 91,
+    "releaseDate": "Current in pricing docs on June 1, 2026",
+    "arenaScore": 92,
     "agentScore": 94,
     "latency": 1.4,
-    "contextWindow": 200,
+    "contextWindow": 1000,
     "inputCost": 1.5,
     "outputCost": 9,
     "cacheCost": 0.15,
@@ -255,8 +260,8 @@ export const hostedModels = [
     "regions": [
       "global"
     ],
-    "modelId": "Gemini 3.5 Flash",
-    "notes": "Google's newer fast path. Better for large routed fleets and grounded automation than for one-shot prestige demos."
+    "modelId": "gemini-3.5-flash",
+    "notes": "Google's speed-focused current model in pricing docs. Better suited to routed fleets and grounded automation than prestige one-shot reasoning."
   },
   {
     "id": "gpt-54-mini",
@@ -264,14 +269,14 @@ export const hostedModels = [
     "provider": "OpenAI",
     "tier": "Executor",
     "status": "GA",
-    "releaseDate": "Current as documented May 31, 2026",
-    "arenaScore": 90,
-    "agentScore": 93,
+    "releaseDate": "March 17, 2026",
+    "arenaScore": 91,
+    "agentScore": 94,
     "latency": 1.5,
-    "contextWindow": 270,
+    "contextWindow": 400,
     "inputCost": 0.75,
     "outputCost": 4.5,
-    "cacheCost": 0.08,
+    "cacheCost": 0.075,
     "toolUse": "Strong",
     "modalities": [
       "text",
@@ -282,7 +287,7 @@ export const hostedModels = [
       "global"
     ],
     "modelId": "gpt-5.4-mini",
-    "notes": "The workhorse subagent pick in the OpenAI stack: cheap enough for loops, strong enough for browser and code execution tasks."
+    "notes": "OpenAI's strongest mini model for coding, computer use, and subagents. Still one of the cleanest executor picks when you want broad tool support without GPT-5.5 pricing."
   },
   {
     "id": "mistral-medium-35",
@@ -290,11 +295,11 @@ export const hostedModels = [
     "provider": "Mistral",
     "tier": "Open-weight frontier",
     "status": "GA",
-    "releaseDate": "Current in pricing docs May 31, 2026",
-    "arenaScore": 89,
-    "agentScore": 91,
+    "releaseDate": "April 28, 2026",
+    "arenaScore": 90,
+    "agentScore": 92,
     "latency": 2.1,
-    "contextWindow": 128,
+    "contextWindow": 256,
     "inputCost": 1.5,
     "outputCost": 7.5,
     "cacheCost": 0,
@@ -307,56 +312,71 @@ export const hostedModels = [
     "regions": [
       "global"
     ],
-    "modelId": "mistral-medium-latest",
-    "notes": "A serious contender when you want a more open stack without dropping all the way down to small local models."
+    "modelId": "mistral-medium-3-5",
+    "notes": "Mistral's current frontier-class multimodal model for agentic and coding use cases, with a bigger 256k context than the repo previously tracked."
   }
 ];
 
 export const localModels = [
   {
-    "id": "devstral-24b",
-    "name": "Devstral 24B",
-    "family": "Mistral x All Hands",
-    "fitScore": 95,
-    "arenaScore": 92,
-    "vramGb": 14.5,
+    "id": "devstral-small-2",
+    "name": "Devstral Small 2 24B",
+    "family": "Mistral",
+    "fitScore": 96,
+    "arenaScore": 93,
+    "vramGb": 16,
     "params": 24,
-    "quant": "Q4-class",
-    "contextWindow": 128,
+    "quant": "4-bit / Q4-class",
+    "contextWindow": 256,
     "toolUse": "Excellent",
     "fitMode": "Comfortable on 4090",
     "bestFor": "Local coding agent",
-    "notes": "Explicitly positioned as a single-4090 model and built for software-engineering agents. This is the least delusional local pick for code-heavy OpenClaw work."
+    "notes": "Mistral's current recommended local coding model. Official docs call out Devstral Small 2 for offline use and a 24 GB RTX 4090 for 4-bit deployment."
   },
   {
-    "id": "mistral-small-31",
-    "name": "Mistral Small 3.1 24B",
+    "id": "mistral-small-4",
+    "name": "Mistral Small 4",
+    "family": "Mistral",
+    "fitScore": 93,
+    "arenaScore": 91,
+    "vramGb": 24,
+    "params": 119,
+    "quant": "4-bit MoE",
+    "contextWindow": 256,
+    "toolUse": "Strong",
+    "fitMode": "Good 4090 fit",
+    "bestFor": "Hybrid local generalist",
+    "notes": "Mistral explicitly recommends Small 4 for local usage alongside Devstral Small 2. It is a 119B MoE with only 6.5B active parameters, making 24 GB cards realistic at 4-bit with reduced effective context."
+  },
+  {
+    "id": "mistral-small-32",
+    "name": "Mistral Small 3.2 24B",
     "family": "Mistral",
     "fitScore": 92,
-    "arenaScore": 88,
-    "vramGb": 14.1,
+    "arenaScore": 89,
+    "vramGb": 15,
     "params": 24,
-    "quant": "Q4-class",
+    "quant": "Q4_K_M",
     "contextWindow": 128,
     "toolUse": "Strong",
     "fitMode": "Comfortable on 4090",
     "bestFor": "Vision-aware local executor",
-    "notes": "Multimodal, fast, and directly documented as single-4090 friendly. Great local executor when you need vision plus tool loops."
+    "notes": "The current Ollama refresh over Small 3.1 improves function calling, instruction following, and repetition behavior without breaking the single-4090 story."
   },
   {
-    "id": "qwen3-32b",
-    "name": "Qwen3 32B",
+    "id": "qwen3-30b",
+    "name": "Qwen3 30B-A3B",
     "family": "Qwen",
     "fitScore": 91,
     "arenaScore": 90,
-    "vramGb": 20.5,
-    "params": 32,
-    "quant": "Q4_K_M",
-    "contextWindow": 131,
+    "vramGb": 19,
+    "params": 30,
+    "quant": "Q4-class MoE",
+    "contextWindow": 256,
     "toolUse": "Strong",
     "fitMode": "Good 4090 fit",
     "bestFor": "General local planner",
-    "notes": "Still one of the strongest open local planners if you want a single-GPU box that can do real work without turning into a science project."
+    "notes": "Ollama now highlights the newer 30B update rather than the older 32B entry. It remains one of the strongest open local planning models that still fits a sane single-GPU setup."
   },
   {
     "id": "gemma3-27b",
@@ -364,29 +384,14 @@ export const localModels = [
     "family": "Google",
     "fitScore": 89,
     "arenaScore": 86,
-    "vramGb": 17.2,
+    "vramGb": 17,
     "params": 27,
-    "quant": "Q4/QAT",
+    "quant": "Q4 / QAT",
     "contextWindow": 128,
     "toolUse": "Strong",
     "fitMode": "Good 4090 fit",
     "bestFor": "Multimodal local generalist",
-    "notes": "A very healthy local multimodal choice, especially if you want better vision behavior than older 7B-13B class open models."
-  },
-  {
-    "id": "llama4-scout",
-    "name": "Llama 4 Scout",
-    "family": "Meta",
-    "fitScore": 82,
-    "arenaScore": 87,
-    "vramGb": 23.5,
-    "params": 109,
-    "quant": "Heavy quant / offload",
-    "contextWindow": 10000,
-    "toolUse": "Strong",
-    "fitMode": "Technically fits, operationally spicy",
-    "bestFor": "Experimental long-context multimodal local stack",
-    "notes": "The interesting but slightly cursed option. It can be made to fit a 4090 with aggressive quantization or offload, but this is for enthusiasts, not sane defaults."
+    "notes": "Still one of the cleanest local multimodal options. Ollama's official 27B package remains a very reasonable single-GPU choice."
   }
 ];
 

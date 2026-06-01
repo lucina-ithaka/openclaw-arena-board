@@ -129,7 +129,7 @@ function App() {
     {
       label: "Hosted models tracked",
       value: hostedModels.length,
-      detail: "Refreshed to a May 31, 2026 snapshot",
+      detail: "Refreshed to a June 1, 2026 snapshot",
     },
     {
       label: "4090-ready local models",

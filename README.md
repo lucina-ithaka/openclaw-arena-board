@@ -18,7 +18,7 @@ This version is tailored to OpenClaw-like stacks where you care about:
 - A routing map for planner / executor / verifier / local-fallback patterns
 - A separate 4090-only section for local models
 - A repo roadmap for turning the snapshot into a live data product
-- A dated May 31, 2026 research refresh with explicit source methodology
+- A dated June 1, 2026 research refresh with explicit source methodology
 
 ## Run locally
 
@@ -60,8 +60,14 @@ npm run generate:data
 
 - LM Arena reference: <https://huggingface.co/spaces/lmarena-ai/arena-leaderboard>
 - OpenAI pricing: <https://openai.com/api/pricing/>
-- Anthropic pricing: <https://www.anthropic.com/pricing#api>
+- OpenAI model compare: <https://developers.openai.com/api/docs/models/compare>
+- Anthropic pricing: <https://platform.claude.com/docs/en/about-claude/pricing>
+- Anthropic models overview: <https://platform.claude.com/docs/en/docs/about-claude/models>
 - Google Gemini API pricing: <https://ai.google.dev/gemini-api/docs/pricing>
-- xAI model docs: <https://docs.x.ai/docs/models>
+- Google Gemini models: <https://ai.google.dev/gemini-api/docs/models>
+- xAI models and pricing: <https://docs.x.ai/developers/models>
+- DeepSeek pricing: <https://api-docs.deepseek.com/quick_start/pricing>
+- Mistral pricing: <https://mistral.ai/pricing/>
+- Mistral model docs: <https://docs.mistral.ai/models>
 - Ollama model library: <https://ollama.com/library>
 - AGI Ranker: <https://www.agiranker.com/>
